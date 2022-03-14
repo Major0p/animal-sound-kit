@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drum</title>
+    <style>
+        *{
+            background-color:black;
+        }
+        .keys{
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            align-content: space-around;
+            -webkit-justify-content: center;
+            -webkit-align-content: center;
+        }
+        .key{
+            width: 55px;
+            height: 55px;
+            color: white;
+            border: 1px solid red;
+            padding: 2px 2px;
+            margin: 10px;
+            text-align: center;
+            box-shadow: 0 1px 1px 0 blue, 0 1px 1px 0 blue;
+            transition: all .09s;
+        }
+        .playing {
+            transform: scale(1.1);
+            border-color: #7adcff;
+            box-shadow: 0 0 1rem #7adcff;
+            background: rgba(255,255,255,0.05);
+        }
+        kbd{
+            display: block;
+            font-size: 30px;
+        }
+        span{
+            font-size: 20px;
+            color: burlywood;
+        }
+    </style>
+</head>
+<body>
+    <div class="keys">
+        <div class="key" data-key="65">
+            <kbd>A</kbd>
+            <span class="sound">Roar</span>
+        </div>
+        <div class="key" data-key="83">
+            <kbd>S</kbd>
+            <span class="sound">insect</span>
+        </div>
+        <div class="key" data-key="68">
+            <kbd>D</kbd>
+            <span class="sound">cry</span>
+        </div>
+        <div class="key" data-key="70">
+            <kbd>F</kbd>
+            <span class="sound">dog</span>
+        </div>
+        <div class="key" data-key="71">
+            <kbd>G</kbd>
+            <span class="sound">bird</span>
+        </div>
+        <div class="key" data-key="72">
+            <kbd>H</kbd>
+            <span class="sound">chii</span>
+        </div>
+        <div class="key" data-key="74">
+            <kbd>J</kbd>
+            <span class="sound">squeak</span>
+        </div>
+        <div class="key" data-key="75">
+            <kbd>K</kbd>
+            <span class="sound">beast</span>
+        </div>
+        <div class="key" data-key="76">
+            <kbd>L</kbd>
+            <span class="sound">lion</span>
+        </div>
+    </div>
+
+    <audio data-key="76" src="contant/mixkit-wild-lion-animal-roar-6.wav"></audio>
+    <audio data-key="71" src="contant/mixkit-little-birds-singing-in-the-trees-17.wav"></audio>
+    <audio data-key="74" src="contant/mixkit-tropical-bird-squeak-27.wav"></audio>
+    <audio data-key="72" src="contant/mixkit-double-little-bird-chirp-21.wav"></audio>
+    <audio data-key="65" src="contant/mixkit-beast-in-pain-roaring-15.wav"></audio>
+    <audio data-key="70" src="contant/mixkit-dog-barking-twice-1.wav"></audio>
+    <audio data-key="75" src="contant/mixkit-wild-beast-roar-12.wav"></audio>
+    <audio data-key="83" src="contant/mixkit-cartoon-insect-complain-32.wav"></audio>
+    <audio data-key="68" src="contant/mixkit-cartoon-animal-crying-in-pain-2.wav"></audio>
+    
+<!--
+    <audio data-key="65" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/clap.wav"></audio>
+    <audio data-key="83" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/hihat.wav"></audio>
+    <audio data-key="68" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/kick.wav"></audio>
+    <audio data-key="70" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/openhat.wav"></audio>
+    <audio data-key="71" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/boom.wav"></audio>
+    <audio data-key="72" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/ride.wav"></audio>
+    <audio data-key="74" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/snare.wav"></audio>
+    <audio data-key="75" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/tom.wav"></audio>
+    <audio data-key="76" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/tink.wav"></audio>
+-->
+    <script>
+        function playSound(e) {
+                const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+                const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+                if (!audio) return;
+                audio.currentTime = 0;
+                audio.play();
+                key.classList.add('playing');
+            }
+
+            function removeTransition(e) {
+                if (e.propertyName !== 'transform') return;
+                this.classList.remove('playing');
+            }
+
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+            window.addEventListener('keydown', playSound);
+            window.addEventListener('mousedown', playSound);
+    </script>
+</body>
+</html>
